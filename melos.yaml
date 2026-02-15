@@ -1,0 +1,9 @@
+name: flutter_melos_starter
+
+packages:
+  - apps/*
+  - packages/*
+
+command:
+  bootstrap:
+    runPubGetInParallel: true

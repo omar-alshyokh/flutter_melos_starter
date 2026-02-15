@@ -1,0 +1,62 @@
+name: app
+description: Hacker News starter app (Melos workspace) showcasing Clean Architecture + BLoC + DI.
+publish_to: none
+version: 0.1.0+1
+resolution: workspace
+
+homepage: https://github.com/omar-alshyokh/flutter_melos_starter
+repository: https://github.com/omar-alshyokh/flutter_melos_starter
+issue_tracker: https://github.com/omar-alshyokh/flutter_melos_starter/issues
+
+topics:
+  - flutter
+  - melos
+  - clean-architecture
+  - bloc
+  - dependency-injection
+  - hacker-news
+
+environment:
+  sdk: ^3.9.2
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # UI / Navigation
+  cupertino_icons: ^1.0.8
+  go_router: ^17.1.0
+
+  # State management
+  flutter_bloc: ^9.1.1
+
+  # Dependency Injection
+  get_it: ^9.2.0
+  injectable: ^2.7.1+4
+
+  # Networking
+  dio: ^5.9.1
+
+  # Workspace packages
+  core:
+    path: ../../packages/core
+  app_config:
+    path: ../../packages/app_config
+  auth:
+    path: ../../packages/auth
+  posts:
+    path: ../../packages/posts
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  # Codegen (Injectable)
+  build_runner: ^2.11.1
+  injectable_generator: ^2.12.0
+
+  # Lints
+  flutter_lints: ^5.0.0
+
+flutter:
+  uses-material-design: true

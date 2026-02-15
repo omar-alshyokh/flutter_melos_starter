@@ -1,0 +1,29 @@
+name: app_config
+description: App environment configuration (dev/staging/prod) for the starter workspace.
+version: 0.1.0
+resolution: workspace
+
+homepage: https://github.com/omar-alshyokh/flutter_melos_starter
+repository: https://github.com/omar-alshyokh/flutter_melos_starter
+issue_tracker: https://github.com/omar-alshyokh/flutter_melos_starter/issues
+
+topics:
+  - flutter
+  - config
+  - environment
+  - clean-architecture
+
+environment:
+  sdk: ^3.9.2
+  flutter: ">=1.17.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+
+flutter:

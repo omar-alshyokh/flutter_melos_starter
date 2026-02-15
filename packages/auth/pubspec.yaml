@@ -1,0 +1,38 @@
+name: auth
+description: Authentication feature (UI-only placeholder) for the starter workspace.
+version: 0.1.0
+resolution: workspace
+
+homepage: https://github.com/omar-alshyokh/flutter_melos_starter
+repository: https://github.com/omar-alshyokh/flutter_melos_starter
+issue_tracker: https://github.com/omar-alshyokh/flutter_melos_starter/issues
+
+topics:
+  - flutter
+  - feature
+  - auth
+  - bloc
+  - clean-architecture
+
+environment:
+  sdk: ^3.9.2
+  flutter: ">=1.17.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # State management
+  flutter_bloc: ^9.1.1
+  equatable: ^2.0.8
+
+  # Workspace packages
+  core:
+    path: ../core
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+
+flutter:
