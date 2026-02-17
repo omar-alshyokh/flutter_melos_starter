@@ -13,3 +13,4 @@ workspace:
   - packages/app_config
   - packages/auth
   - packages/posts
+  - packages/more

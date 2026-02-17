@@ -1,9 +1,30 @@
 name: flutter_melos_starter
 
 packages:
-  - apps/*
-  - packages/*
+  - apps/**
+  - packages/**
 
 command:
   bootstrap:
     runPubGetInParallel: true
+
+scripts:
+  get:
+    run: melos exec -- "flutter pub get"
+
+  analyze:
+    run: melos exec -- "flutter analyze"
+
+  format:
+    run: melos exec -- "dart format ."
+
+  test:
+    run: melos exec --fail-fast -- "flutter test"
+
+  build_runner:
+    run: melos exec --depends-on=build_runner -- "dart run build_runner build --delete-conflicting-outputs"
+
+#melos analyze
+#melos format
+#melos test
+#melos build_runner

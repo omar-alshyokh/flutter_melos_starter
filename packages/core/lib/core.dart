@@ -1,24 +1,16 @@
-export 'network/dio_factory.dart';
+library core;
 
-sealed class Result<T> {
-  const Result();
-}
+export 'src/result/result.dart';
+export 'src/result/failure.dart';
+export 'src/errors/error_mapper.dart';
+export 'src/network/network_call.dart';
+export 'src/network/json_types.dart';
+export 'src/network/interceptors/network_logger_interceptor.dart';
 
-class Success<T> extends Result<T> {
-  final T data;
-  const Success(this.data);
-}
+export 'src/datasource/base_remote_datasource.dart';
+export 'src/datasource/base_local_datasource.dart';
+export 'src/repository/base_repository.dart';
 
-class Failure<T> extends Result<T> {
-  final AppFailure error;
-  const Failure(this.error);
-}
-
-class AppFailure {
-  final String message;
-  final Object? cause;
-
-  const AppFailure(this.message, {this.cause});
-}
-
-
+export 'src/storage/app_prefs.dart';
+export 'src/storage/secure_store.dart';
+export 'src/storage/storage_keys.dart';

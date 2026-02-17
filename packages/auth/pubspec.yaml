@@ -18,6 +18,13 @@ environment:
   sdk: ^3.9.2
   flutter: ">=1.17.0"
 
+  # Dependency Injection
+  get_it: ^9.2.0
+  injectable: ^2.7.1+4
+
+  # Networking
+  dio: ^5.9.1
+
 dependencies:
   flutter:
     sdk: flutter
@@ -26,13 +33,26 @@ dependencies:
   flutter_bloc: ^9.1.1
   equatable: ^2.0.8
 
+  go_router: ^17.1.0
+
+
+  # Dependency Injection
+  get_it: ^9.2.0
+  injectable: ^2.7.1+4
+
   # Workspace packages
   core:
     path: ../core
+  app:
+    path: ../../apps/app
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^5.0.0
+
+  # Codegen (Injectable)
+  build_runner: ^2.11.1
+  injectable_generator: ^2.12.0
 
 flutter:

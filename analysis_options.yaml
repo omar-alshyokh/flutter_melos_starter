@@ -1,0 +1,19 @@
+include: package:flutter_lints/flutter.yaml
+
+analyzer:
+  errors:
+    unused_import: error
+    dead_code: error
+    invalid_assignment: error
+  exclude:
+    - "**/*.g.dart"
+    - "**/*.freezed.dart"
+    - "**/generated_plugin_registrant.dart"
+
+linter:
+  rules:
+    prefer_const_constructors: true
+    prefer_const_literals_to_create_immutables: true
+    avoid_print: true
+    always_use_package_imports: true
+    depend_on_referenced_packages: false

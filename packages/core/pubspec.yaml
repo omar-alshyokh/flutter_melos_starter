@@ -1,33 +1,21 @@
 name: core
-description: Shared core utilities (Result/Failure, networking factory, base types) for the workspace.
-version: 0.1.0
+description: Shared core utilities for Flutter apps (result, errors, logging, networking).
+version: 0.0.1
+publish_to: none
 resolution: workspace
-
-homepage: https://github.com/omar-alshyokh/flutter_melos_starter
-repository: https://github.com/omar-alshyokh/flutter_melos_starter
-issue_tracker: https://github.com/omar-alshyokh/flutter_melos_starter/issues
-
-topics:
-  - flutter
-  - core
-  - clean-architecture
-  - networking
-  - utilities
 
 environment:
   sdk: ^3.9.2
-  flutter: ">=1.17.0"
+  flutter: ">=3.24.0"
 
 dependencies:
   flutter:
     sdk: flutter
-
-  # Only keep dependencies here if core imports them.
-  # (Currently core exports DioFactory but doesn't need dio package itself)
+  dio: ^5.9.1
+  shared_preferences: ^2.5.4
+  flutter_secure_storage: ^10.0.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^5.0.0
-
-flutter:

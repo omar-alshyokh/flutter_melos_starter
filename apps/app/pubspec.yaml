@@ -46,6 +46,8 @@ dependencies:
     path: ../../packages/auth
   posts:
     path: ../../packages/posts
+  more:
+    path: ../../packages/more
 
 dev_dependencies:
   flutter_test:
