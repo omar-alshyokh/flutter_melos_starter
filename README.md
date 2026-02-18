@@ -192,4 +192,3 @@ Avoid Melos when:
 
 ## License
 
-Add your license (for example MIT) before publishing.
