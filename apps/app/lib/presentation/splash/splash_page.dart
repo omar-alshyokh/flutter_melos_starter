@@ -1,5 +1,6 @@
 import 'package:app/di/di.dart';
 import 'package:auth/auth.dart';
+import 'package:core/core.dart';
 import 'package:flutter/material.dart';
 
 class SplashPage extends StatefulWidget {
@@ -19,8 +20,13 @@ class _SplashPageState extends State<SplashPage> {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(child: CircularProgressIndicator()),
+    return Scaffold(
+      body: Center(
+        child: Padding(
+          padding: AppSpacing.page,
+          child: const CircularProgressIndicator(),
+        ),
+      ),
     );
   }
 }

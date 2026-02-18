@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../cubit/auth_cubit.dart';
 import '../cubit/auth_state.dart';
-import 'package:go_router/go_router.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -40,10 +39,15 @@ class _RegisterPageState extends State<RegisterPage> {
                       padding: const EdgeInsets.only(bottom: 12),
                       child: Text(
                         state.error!,
-                        style: TextStyle(color: Theme.of(context).colorScheme.error),
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.error,
+                        ),
                       ),
                     ),
-                  TextField(controller: _name, decoration: const InputDecoration(labelText: 'Name')),
+                  TextField(
+                    controller: _name,
+                    decoration: const InputDecoration(labelText: 'Name'),
+                  ),
                   const SizedBox(height: 12),
                   TextField(
                     controller: _email,
@@ -63,15 +67,18 @@ class _RegisterPageState extends State<RegisterPage> {
                       onPressed: state.isLoading
                           ? null
                           : () async {
-                        await context.read<AuthCubit>().register(
-                          _name.text,
-                          _email.text,
-                          _pass.text,
-                        );
-                        if (mounted && context.read<AuthCubit>().state.user != null) {
-                          context.pop(); // go back to login or shell
-                        }
-                      },
+                              final cubit = context.read<AuthCubit>();
+                              final navigator = Navigator.of(context);
+                              await cubit.register(
+                                _name.text,
+                                _email.text,
+                                _pass.text,
+                              );
+                              if (!mounted) return;
+                              if (cubit.state.user != null) {
+                                navigator.pop(); // go back to login or shell
+                              }
+                            },
                       child: Text(state.isLoading ? 'Loading...' : 'Create'),
                     ),
                   ),

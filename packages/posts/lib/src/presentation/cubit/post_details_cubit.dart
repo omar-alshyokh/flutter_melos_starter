@@ -26,15 +26,19 @@ class PostDetailsError extends PostDetailsState {
 
 class PostDetailsCubit extends Cubit<PostDetailsState> {
   final GetStoryDetailsUseCase _useCase;
+  void _emitSafe(PostDetailsState next) {
+    if (!isClosed) emit(next);
+  }
 
   PostDetailsCubit(this._useCase) : super(const PostDetailsInitial());
 
   Future<void> load(int id) async {
-    emit(const PostDetailsLoading());
+    _emitSafe(const PostDetailsLoading());
     final res = await _useCase(id);
+    if (isClosed) return;
     res.when(
-      success: (story) => emit(PostDetailsLoaded(story)),
-      failure: (f) => emit(PostDetailsError(f.message)),
+      success: (story) => _emitSafe(PostDetailsLoaded(story)),
+      failure: (f) => _emitSafe(PostDetailsError(f.message)),
     );
   }
 }

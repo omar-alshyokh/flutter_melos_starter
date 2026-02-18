@@ -23,7 +23,9 @@ class _PostsPageState extends State<PostsPage> {
     _controller = ScrollController()..addListener(_onScroll);
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<PostsCubit>().loadInitial();
+      final cubit = context.read<PostsCubit>();
+      cubit.init();
+      cubit.loadInitial();
     });
   }
 
@@ -49,7 +51,7 @@ class _PostsPageState extends State<PostsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Post Details')),
+      appBar: AppBar(title: const Text('Posts')),
       body: BlocBuilder<PostsCubit, PostsState>(
         builder: (context, state) {
           // First load
@@ -80,6 +82,9 @@ class _PostsPageState extends State<PostsPage> {
                 for (final item in state.items)
                   PostTile(
                     story: item,
+                    isFavorite: state.favoriteIds.contains(item.id),
+                    onToggleFavorite: () =>
+                        context.read<PostsCubit>().toggleFavorite(item.id),
                     onTap: () => context.pushNamed(
                       PostsRouteNames.postDetails,
                       pathParameters: {'id': item.id.toString()},
@@ -163,10 +168,7 @@ class _InlineErrorBanner extends StatelessWidget {
   final String message;
   final VoidCallback onRetry;
 
-  const _InlineErrorBanner({
-    required this.message,
-    required this.onRetry,
-  });
+  const _InlineErrorBanner({required this.message, required this.onRetry});
 
   @override
   Widget build(BuildContext context) {
@@ -184,10 +186,9 @@ class _InlineErrorBanner extends StatelessWidget {
               Expanded(
                 child: Text(
                   message,
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyMedium
-                      ?.copyWith(color: color.onErrorContainer),
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    color: color.onErrorContainer,
+                  ),
                 ),
               ),
               const SizedBox(width: 10),

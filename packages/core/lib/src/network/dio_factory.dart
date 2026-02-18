@@ -1,7 +1,6 @@
 import 'package:core/core.dart';
 import 'package:dio/dio.dart';
 import '../logging/log.dart';
-import 'interceptors/logging_interceptor.dart';
 import 'interceptors/retry_interceptor.dart';
 import 'interceptors/headers_interceptor.dart';
 

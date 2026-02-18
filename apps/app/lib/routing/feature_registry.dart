@@ -1,31 +1,61 @@
 import 'package:app/routing/feature_entry.dart';
-import 'package:more/more_feature.dart';
-import 'package:posts/posts_feature.dart';
 import 'package:flutter/material.dart';
+import 'package:more/more.dart';
+import 'package:posts/posts.dart';
+import 'package:posts/posts_feature.dart';
 
-List<FeatureEntry> featureRegistry() => [
+List<FeatureEntry> featureRegistry({
+  required String postsPath,
+  required String topPath,
+  required String favoritesPath,
+  required String morePath,
+  required PostsCubit Function() postsCubitFactory,
+  required TopPostsCubit Function() topPostsCubitFactory,
+  required FavoritesCubit Function() favoritesCubitFactory,
+  required PostDetailsCubit Function() postDetailsCubitFactory,
+  required MoreCubit Function() moreCubitFactory,
+  required void Function(BuildContext ctx) onOpenProfile,
+  required void Function(BuildContext ctx) onOpenChangePassword,
+  required void Function(BuildContext ctx) onOpenChangeEmail,
+}) => [
   FeatureEntry(
-    path: PostsFeature.path,
-    label: PostsFeature.label,
-    icon: PostsFeature.icon,
-    route: PostsFeature.route(),
-  ),
-  const FeatureEntry(
-    path: '/home/top',
-    label: 'Top',
-    icon: Icons.trending_up,
-    route: null, // route already in router
-  ),
-  const FeatureEntry(
-    path: '/home/favorites',
-    label: 'Favorites',
-    icon: Icons.favorite,
-    route: null,
+    path: postsPath,
+    label: PostsFeature.postsLabel,
+    icon: PostsFeature.postsIcon,
+    routeFactory: () => PostsFeature.route(
+      path: postsPath,
+      postsCubitFactory: postsCubitFactory,
+      postDetailsCubitFactory: postDetailsCubitFactory,
+    ),
   ),
   FeatureEntry(
-    path: MoreFeature.path,
+    path: topPath,
+    label: PostsFeature.topLabel,
+    icon: PostsFeature.topIcon,
+    routeFactory: () => PostsFeature.topRoute(
+      path: topPath,
+      topPostsCubitFactory: topPostsCubitFactory,
+    ),
+  ),
+  FeatureEntry(
+    path: favoritesPath,
+    label: PostsFeature.favoritesLabel,
+    icon: PostsFeature.favoritesIcon,
+    routeFactory: () => PostsFeature.favoritesRoute(
+      path: favoritesPath,
+      favoritesCubitFactory: favoritesCubitFactory,
+    ),
+  ),
+  FeatureEntry(
+    path: morePath,
     label: MoreFeature.label,
     icon: MoreFeature.icon,
-    route: MoreFeature.route(),
+    routeFactory: () => MoreFeature.route(
+      path: morePath,
+      cubitFactory: moreCubitFactory,
+      onOpenProfile: onOpenProfile,
+      onOpenChangePassword: onOpenChangePassword,
+      onOpenChangeEmail: onOpenChangeEmail,
+    ),
   ),
 ];

@@ -1,55 +1,76 @@
-library posts_feature;
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 
-import 'package:posts/posts.dart'; // exports cubits/pages OR adjust imports to your actual exports
+import 'package:posts/posts.dart';
 import 'package:posts/src/presentation/pages/post_details_page.dart';
-import 'package:posts/src/presentation/routes/posts_route_names.dart'; // optional if you keep names, otherwise remove
+import 'package:posts/src/presentation/routes/posts_route_names.dart';
 
-/// Feature owns: Cubit creation + initial load + details cubit
-/// App owns only: tabs + shell + router composition
 class PostsFeature {
-  static const path = '/home/posts';
-  static const label = 'Posts';
-  static const icon = Icons.list;
+  static const postsLabel = 'Posts';
+  static const postsIcon = Icons.list;
+  static const topLabel = 'Top';
+  static const topIcon = Icons.trending_up;
+  static const favoritesLabel = 'Favorites';
+  static const favoritesIcon = Icons.favorite;
 
-  // Expose details page if you want to keep page inside package public API
-  static Widget detailsPage(int id) => PostDetailsPage(id: id);
-
-  /// Feature-level route (no params from app)
-  static RouteBase route() {
+  static RouteBase route({
+    required String path,
+    required PostsCubit Function() postsCubitFactory,
+    required PostDetailsCubit Function() postDetailsCubitFactory,
+  }) {
     return GoRoute(
       path: path,
-      // Optional but recommended: use name if you navigate by name
       name: PostsRouteNames.posts,
       builder: (context, state) {
         return BlocProvider(
-          // If you use GetIt inside posts: create: (_) => GetIt.I<PostsCubit>()..loadInitial(),
-          // Or create directly (shown):
-          create: (_) => GetIt.I<PostsCubit>()..loadInitial(),
+          create: (_) => postsCubitFactory(),
           child: const PostsPage(),
         );
       },
       routes: [
         GoRoute(
-          path: 'details/:id',
+          path: PostsRouteNames.detailsPathSegment,
           name: PostsRouteNames.postDetails,
           builder: (context, state) {
             final idStr = state.pathParameters['id'];
             final id = int.tryParse(idStr ?? '') ?? 0;
 
             return BlocProvider(
-              // If you use GetIt inside posts: create: (_) => GetIt.I<PostDetailsCubit>()..load(id),
-              // Or create directly (shown):
-              create: (_) => GetIt.I<PostDetailsCubit>()..load(id),
+              create: (_) => postDetailsCubitFactory()..load(id),
               child: PostDetailsPage(id: id),
             );
           },
         ),
       ],
+    );
+  }
+
+  static RouteBase topRoute({
+    required String path,
+    required TopPostsCubit Function() topPostsCubitFactory,
+  }) {
+    return GoRoute(
+      path: path,
+      name: PostsRouteNames.topPosts,
+      builder: (_, __) => BlocProvider(
+        create: (_) => topPostsCubitFactory(),
+        child: const TopPostsPage(),
+      ),
+    );
+  }
+
+  static RouteBase favoritesRoute({
+    required String path,
+    required FavoritesCubit Function() favoritesCubitFactory,
+  }) {
+    return GoRoute(
+      path: path,
+      name: PostsRouteNames.favoritePosts,
+      builder: (_, __) => BlocProvider(
+        create: (_) => favoritesCubitFactory(),
+        child: const FavoritesPage(),
+      ),
     );
   }
 }

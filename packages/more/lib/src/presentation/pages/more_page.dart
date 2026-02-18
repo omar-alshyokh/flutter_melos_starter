@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:more/src/routing/more_route_names.dart';
 import '../cubit/more_cubit.dart';
 import '../cubit/more_state.dart';
 import 'package:go_router/go_router.dart';
@@ -48,7 +49,7 @@ class MorePage extends StatelessWidget {
               _Tile(
                 icon: Icons.info_outline,
                 title: 'About the app',
-                onTap: () => context.push('/home/more/about'),
+                onTap: () => context.pushNamed(MoreRouteNames.aboutName),
               ),
               SwitchListTile(
                 value: state.isDarkMode,
@@ -73,29 +74,20 @@ class MorePage extends StatelessWidget {
       context: context,
       builder: (_) {
         return SafeArea(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              RadioListTile(
-                value: 'en',
-                groupValue: current,
-                title: const Text('English'),
-                onChanged: (_) {
-                  context.read<MoreCubit>().setLanguage('en');
-                  Navigator.pop(context);
-                },
-              ),
-              RadioListTile(
-                value: 'ar',
-                groupValue: current,
-                title: const Text('Arabic'),
-                onChanged: (_) {
-                  context.read<MoreCubit>().setLanguage('ar');
-                  Navigator.pop(context);
-                },
-              ),
-              const SizedBox(height: 8),
-            ],
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: SegmentedButton<String>(
+              segments: const [
+                ButtonSegment<String>(value: 'en', label: Text('English')),
+                ButtonSegment<String>(value: 'ar', label: Text('Arabic')),
+              ],
+              selected: {current},
+              onSelectionChanged: (selection) {
+                final code = selection.first;
+                context.read<MoreCubit>().setLanguage(code);
+                Navigator.pop(context);
+              },
+            ),
           ),
         );
       },
@@ -113,7 +105,9 @@ class _SectionTitle extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(4, 10, 4, 6),
       child: Text(
         text,
-        style: Theme.of(context).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w700),
+        style: Theme.of(
+          context,
+        ).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w700),
       ),
     );
   }

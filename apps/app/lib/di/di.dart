@@ -20,8 +20,6 @@ Future<void> configureDependencies({required AppConfig config}) async {
 
   // feature DI
   auth_di.configureAuthDependencies(getIt);
-  posts_di.configurePostsDependencies(getIt);
+  await posts_di.configurePostsDependencies(getIt);
   more_di.configureMoreDependencies(getIt);
-
 }
-

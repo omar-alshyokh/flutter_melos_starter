@@ -24,10 +24,8 @@
         "app_config",
         "auth",
         "core",
-        "cupertino_icons",
         "dio",
         "flutter",
-        "flutter_bloc",
         "get_it",
         "go_router",
         "injectable",
@@ -70,20 +68,16 @@
       "name": "auth",
       "version": "0.1.0",
       "dependencies": [
-        "app",
         "core",
         "equatable",
         "flutter",
         "flutter_bloc",
         "get_it",
-        "go_router",
-        "injectable"
+        "go_router"
       ],
       "devDependencies": [
-        "build_runner",
         "flutter_lints",
-        "flutter_test",
-        "injectable_generator"
+        "flutter_test"
       ]
     },
     {
@@ -342,11 +336,6 @@
         "shared_preferences_web",
         "shared_preferences_windows"
       ]
-    },
-    {
-      "name": "cupertino_icons",
-      "version": "1.0.8",
-      "dependencies": []
     },
     {
       "name": "yaml_edit",

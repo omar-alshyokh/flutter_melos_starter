@@ -20,7 +20,9 @@ class NetworkLoggerInterceptor extends Interceptor {
 
     _startTimes[options.hashCode] = DateTime.now();
 
-    final path = options.uri.path + (options.uri.hasQuery ? '?${options.uri.query}' : '');
+    final path =
+        options.uri.path +
+        (options.uri.hasQuery ? '?${options.uri.query}' : '');
     log('➡️ ${options.method} $path');
 
     if (logHeaders && options.headers.isNotEmpty) {
@@ -35,12 +37,16 @@ class NetworkLoggerInterceptor extends Interceptor {
     if (!enabled) return handler.next(response);
 
     final start = _startTimes.remove(response.requestOptions.hashCode);
-    final ms = start == null ? null : DateTime.now().difference(start).inMilliseconds;
+    final ms = start == null
+        ? null
+        : DateTime.now().difference(start).inMilliseconds;
 
     final path = response.requestOptions.uri.path;
     final code = response.statusCode ?? 0;
 
-    log('✅ ${response.requestOptions.method} $path $code${ms == null ? '' : ' (${ms}ms)'}');
+    log(
+      '✅ ${response.requestOptions.method} $path $code${ms == null ? '' : ' (${ms}ms)'}',
+    );
 
     if (logHeaders && response.headers.map.isNotEmpty) {
       log('resp-headers: ${response.headers.map}');
@@ -58,12 +64,16 @@ class NetworkLoggerInterceptor extends Interceptor {
     if (!enabled) return handler.next(err);
 
     final start = _startTimes.remove(err.requestOptions.hashCode);
-    final ms = start == null ? null : DateTime.now().difference(start).inMilliseconds;
+    final ms = start == null
+        ? null
+        : DateTime.now().difference(start).inMilliseconds;
 
     final path = err.requestOptions.uri.path;
     final msg = err.message ?? err.type.name;
 
-    log('❌ ${err.requestOptions.method} $path (${msg})${ms == null ? '' : ' (${ms}ms)'}');
+    log(
+      '❌ ${err.requestOptions.method} $path ($msg)${ms == null ? '' : ' (${ms}ms)'}',
+    );
 
     handler.next(err);
   }

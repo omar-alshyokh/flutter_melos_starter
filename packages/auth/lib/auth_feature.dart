@@ -1,5 +1,3 @@
-library auth_feature;
-
 import 'package:auth/src/presentation/pages/change_email_page.dart';
 import 'package:auth/src/presentation/pages/change_password_page.dart';
 import 'package:auth/src/presentation/pages/profile_page.dart';
@@ -13,39 +11,67 @@ import 'src/presentation/pages/login_page.dart';
 import 'src/presentation/pages/register_page.dart';
 
 class AuthFeature {
-
-  static const label = 'Auth';
   static const icon = Icons.lock;
 
-
-  static RouteBase route({
+  /// Public auth routes (OUTSIDE shell)
+  static RouteBase publicRoutes({
+    required String path,
     required AuthCubit Function() cubitFactory,
   }) {
     return GoRoute(
-      path: AuthRouteNames.path,
-      name: AuthRouteNames.login,
-      builder: (context, state) {
-        return BlocProvider(
-          create: (_) => cubitFactory(),
-          child: const LoginPage(),
-        );
-      },
+      path: path,
+      redirect: (_, __) => '$path/${AuthRouteNames.loginSegment}',
       routes: [
         GoRoute(
-          path: AuthRouteNames.registerPath,
-          name: AuthRouteNames.register,
-          builder: (context, state) {
-            // reuse the same cubit instance from parent route
-            return BlocProvider(
-              create: (_) => cubitFactory(),
-              child: const RegisterPage(),
-            );
-          },
+          path: AuthRouteNames.loginSegment,
+          name: AuthRouteNames.loginName,
+          builder: (ctx, st) => BlocProvider(
+            create: (_) => cubitFactory(),
+            child: const LoginPage(),
+          ),
         ),
-        GoRoute(path: AuthRouteNames.profilePath, builder: (_, __) => const ProfilePage()),
-        GoRoute(path: AuthRouteNames.changePasswordPath, builder: (_, __) => const ChangePasswordPage()),
-        GoRoute(path: AuthRouteNames.changeEmailPath, builder: (_, __) => const ChangeEmailPage()),
+        GoRoute(
+          path: AuthRouteNames.registerSegment,
+          name: AuthRouteNames.registerName,
+          builder: (ctx, st) => BlocProvider(
+            create: (_) => cubitFactory(),
+            child: const RegisterPage(),
+          ),
+        ),
       ],
     );
+  }
+
+  /// Account routes (INSIDE shell)
+  static List<RouteBase> accountRoutes({
+    required String basePath,
+    required AuthCubit Function() cubitFactory,
+  }) {
+    return [
+      GoRoute(
+        path: '$basePath/${AuthRouteNames.profileSegment}',
+        name: AuthRouteNames.profileName,
+        builder: (ctx, st) => BlocProvider(
+          create: (_) => cubitFactory(),
+          child: const ProfilePage(),
+        ),
+      ),
+      GoRoute(
+        path: '$basePath/${AuthRouteNames.changePasswordSegment}',
+        name: AuthRouteNames.changePasswordName,
+        builder: (ctx, st) => BlocProvider(
+          create: (_) => cubitFactory(),
+          child: const ChangePasswordPage(),
+        ),
+      ),
+      GoRoute(
+        path: '$basePath/${AuthRouteNames.changeEmailSegment}',
+        name: AuthRouteNames.changeEmailName,
+        builder: (ctx, st) => BlocProvider(
+          create: (_) => cubitFactory(),
+          child: const ChangeEmailPage(),
+        ),
+      ),
+    ];
   }
 }

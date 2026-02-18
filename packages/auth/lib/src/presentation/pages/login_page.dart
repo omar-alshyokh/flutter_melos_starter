@@ -13,8 +13,8 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  final _email = TextEditingController();
-  final _pass = TextEditingController();
+  final _email = TextEditingController(text: "test@test.com");
+  final _pass = TextEditingController(text: "123456");
 
   @override
   void dispose() {
@@ -26,13 +26,12 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return BlocListener<AuthCubit, AuthState>(
-      listenWhen: (p, c) =>
-      p.error != c.error || p.user != c.user,
+      listenWhen: (p, c) => p.error != c.error || p.user != c.user,
       listener: (context, state) {
         if (state.error != null) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(state.error!)),
-          );
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(SnackBar(content: Text(state.error!)));
         }
         // No navigation here. Redirect will handle it when user becomes non-null.
       },
@@ -50,7 +49,9 @@ class _LoginPageState extends State<LoginPage> {
                         padding: const EdgeInsets.only(bottom: 12),
                         child: Text(
                           state.error!,
-                          style: TextStyle(color: Theme.of(context).colorScheme.error),
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.error,
+                          ),
                         ),
                       ),
                     TextField(
@@ -70,12 +71,16 @@ class _LoginPageState extends State<LoginPage> {
                       child: FilledButton(
                         onPressed: state.isLoading
                             ? null
-                            : () => context.read<AuthCubit>().login(_email.text, _pass.text),
+                            : () => context.read<AuthCubit>().login(
+                                _email.text,
+                                _pass.text,
+                              ),
                         child: Text(state.isLoading ? 'Loading...' : 'Login'),
                       ),
                     ),
                     TextButton(
-                      onPressed: () => context.pushNamed(AuthRouteNames.register),
+                      onPressed: () =>
+                          context.pushNamed(AuthRouteNames.registerName),
                       child: const Text('Create account'),
                     ),
                   ],

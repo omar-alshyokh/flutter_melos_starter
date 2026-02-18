@@ -2,7 +2,6 @@ import 'package:dio/dio.dart';
 import '../network/network_call.dart';
 import '../result/result.dart';
 import '../result/failure.dart';
-import '../errors/error_mapper.dart';
 import '../network/json_types.dart';
 
 abstract class BaseRemoteDataSource {
@@ -67,7 +66,12 @@ abstract class BaseRemoteDataSource {
     required T Function(JsonMap json) fromJson,
   }) {
     return NetworkCall.guard(() async {
-      final res = await dio.post(path, data: body, queryParameters: query, options: options);
+      final res = await dio.post(
+        path,
+        data: body,
+        queryParameters: query,
+        options: options,
+      );
       final data = res.data;
 
       if (data is! Map<String, dynamic>) {
@@ -90,7 +94,12 @@ abstract class BaseRemoteDataSource {
     Options? options,
   }) {
     return NetworkCall.guard(() async {
-      final res = await dio.post(path, data: body, queryParameters: query, options: options);
+      final res = await dio.post(
+        path,
+        data: body,
+        queryParameters: query,
+        options: options,
+      );
       return res.data;
     });
   }

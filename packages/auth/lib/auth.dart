@@ -1,5 +1,3 @@
-library auth;
-
 export 'auth_feature.dart';
 export 'src/routing/auth_route_names.dart';
 export 'src/di/auth_di.dart';

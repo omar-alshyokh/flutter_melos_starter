@@ -1,6 +1,5 @@
 import 'app_config.dart';
 import 'env.dart';
-import 'feature_flags.dart';
 
 class ConfigLoader {
   static AppConfig load({
@@ -9,14 +8,7 @@ class ConfigLoader {
     required bool enableNetworkLogs,
     String? versionName,
     String? buildNumber,
-
   }) {
-    final flags = switch (env) {
-      Env.dev => FeatureFlags.dev(),
-      Env.stage => FeatureFlags.stage(),
-      Env.prod => FeatureFlags.prod(),
-    };
-
     return AppConfig(
       env: env,
       baseUrl: apiBaseUrl,
@@ -24,7 +16,7 @@ class ConfigLoader {
       receiveTimeout: const Duration(seconds: 30),
       versionName: versionName,
       buildNumber: buildNumber,
-      enableNetworkLogs: enableNetworkLogs
+      enableNetworkLogs: enableNetworkLogs,
     );
   }
 }

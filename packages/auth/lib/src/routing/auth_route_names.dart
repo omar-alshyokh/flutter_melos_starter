@@ -1,14 +1,13 @@
 class AuthRouteNames {
+  static const loginSegment = 'login';
+  static const registerSegment = 'register';
+  static const profileSegment = 'profile';
+  static const changePasswordSegment = 'change-password';
+  static const changeEmailSegment = 'change-email';
 
-
-
-  static const path = '/auth';
-  static const login = 'auth_login';
-
-  static const registerPath = '$path/register';
-  static const register = 'auth_register';
-
-  static const profilePath = '/profile';
-  static const changePasswordPath = '/change-password';
-  static const changeEmailPath = '/change-email';
+  static const loginName = 'authLogin';
+  static const registerName = 'authRegister';
+  static const profileName = 'accountProfile';
+  static const changePasswordName = 'accountChangePassword';
+  static const changeEmailName = 'accountChangeEmail';
 }

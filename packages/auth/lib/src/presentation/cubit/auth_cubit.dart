@@ -8,50 +8,54 @@ class AuthCubit extends Cubit<AuthState> {
   final LoginUseCase _login;
   final RegisterUseCase _register;
   final AuthRepository _repo;
+  void _emitSafe(AuthState next) {
+    if (!isClosed) emit(next);
+  }
 
-  AuthCubit(this._login, this._register, this._repo) : super(AuthState.initial());
+  AuthCubit(this._login, this._register, this._repo)
+    : super(AuthState.initial());
 
   Future<void> loadSession() async {
-    emit(state.copyWith(isLoading: true, clearError: true));
+    _emitSafe(state.copyWith(isLoading: true, clearError: true));
     final res = await _repo.currentUser();
+    if (isClosed) return;
     res.when(
-      success: (u) => emit(state.copyWith(isLoading: false, user: u)),
-      failure: (f) => emit(state.copyWith(isLoading: false, error: f.message)),
+      success: (u) => _emitSafe(state.copyWith(isLoading: false, user: u)),
+      failure: (f) =>
+          _emitSafe(state.copyWith(isLoading: false, error: f.message)),
     );
   }
 
   Future<void> login(String email, String password) async {
-    print('[AuthCubit] login() start email=$email');
-
-    emit(state.copyWith(isLoading: true, clearError: true));
+    _emitSafe(state.copyWith(isLoading: true, clearError: true));
     final res = await _login(email: email, password: password);
+    if (isClosed) return;
     res.when(
-      success: (u) {
-        print('[AuthCubit] login() SUCCESS user=${u.email}');
-        emit(state.copyWith(isLoading: false, user: u));
-      },
-      failure: (f) {
-        print('[AuthCubit] login() FAIL ${f.message}');
-        emit(state.copyWith(isLoading: false, error: f.message));
-      },
+      success: (u) => _emitSafe(state.copyWith(isLoading: false, user: u)),
+      failure: (f) =>
+          _emitSafe(state.copyWith(isLoading: false, error: f.message)),
     );
   }
 
   Future<void> register(String name, String email, String password) async {
-    emit(state.copyWith(isLoading: true, clearError: true));
+    _emitSafe(state.copyWith(isLoading: true, clearError: true));
     final res = await _register(name: name, email: email, password: password);
+    if (isClosed) return;
     res.when(
-      success: (u) => emit(state.copyWith(isLoading: false, user: u)),
-      failure: (f) => emit(state.copyWith(isLoading: false, error: f.message)),
+      success: (u) => _emitSafe(state.copyWith(isLoading: false, user: u)),
+      failure: (f) =>
+          _emitSafe(state.copyWith(isLoading: false, error: f.message)),
     );
   }
 
   Future<void> logout() async {
-    emit(state.copyWith(isLoading: true, clearError: true));
+    _emitSafe(state.copyWith(isLoading: true, clearError: true));
     final res = await _repo.logout();
+    if (isClosed) return;
     res.when(
-      success: (_) => emit(state.copyWith(isLoading: false, user: null)),
-      failure: (f) => emit(state.copyWith(isLoading: false, error: f.message)),
+      success: (_) => _emitSafe(state.copyWith(isLoading: false, user: null)),
+      failure: (f) =>
+          _emitSafe(state.copyWith(isLoading: false, error: f.message)),
     );
   }
 }

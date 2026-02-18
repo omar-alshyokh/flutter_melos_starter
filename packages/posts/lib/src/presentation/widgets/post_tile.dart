@@ -5,11 +5,15 @@ import 'package:posts/src/presentation/utils/post_ui_utils.dart';
 class PostTile extends StatelessWidget {
   final Story story;
   final VoidCallback? onTap;
+  final bool isFavorite;
+  final VoidCallback? onToggleFavorite;
 
   const PostTile({
     super.key,
     required this.story,
     this.onTap,
+    this.isFavorite = false,
+    this.onToggleFavorite,
   });
 
   @override
@@ -33,9 +37,9 @@ class PostTile extends StatelessWidget {
                 story.title,
                 maxLines: 3,
                 overflow: TextOverflow.ellipsis,
-                style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                  fontWeight: FontWeight.w700,
-                ),
+                style: Theme.of(
+                  context,
+                ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w700),
               ),
               const SizedBox(height: 10),
               Wrap(
@@ -48,6 +52,19 @@ class PostTile extends StatelessWidget {
                   if (domain != null) _Chip(text: domain),
                 ],
               ),
+              if (onToggleFavorite != null) ...[
+                const SizedBox(height: 8),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: IconButton(
+                    onPressed: onToggleFavorite,
+                    tooltip: isFavorite
+                        ? 'Remove from favorites'
+                        : 'Add to favorites',
+                    icon: Icon(isFavorite ? Icons.star : Icons.star_border),
+                  ),
+                ),
+              ],
             ],
           ),
         ),
@@ -68,10 +85,7 @@ class _Chip extends StatelessWidget {
         borderRadius: BorderRadius.circular(999),
         border: Border.all(color: Theme.of(context).dividerColor),
       ),
-      child: Text(
-        text,
-        style: Theme.of(context).textTheme.labelMedium,
-      ),
+      child: Text(text, style: Theme.of(context).textTheme.labelMedium),
     );
   }
 }
